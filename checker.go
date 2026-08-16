@@ -77,7 +77,7 @@ func (c *Checker) Scan(root string) ([]Finding, error) {
 			return nil
 		}
 		if entry.IsDir() {
-			if c.config.Recursive {
+			if !c.config.Recursive {
 				return filepath.SkipDir
 			}
 			return nil
