@@ -93,7 +93,8 @@ func (c *Checker) Scan(root string) ([]Finding, error) {
 	sort.Strings(paths)
 	caseNames := make(map[string][]string)
 	for _, path := range paths {
-		caseNames[strings.ToLower(filepath.Base(path))] = append(caseNames[strings.ToLower(filepath.Base(path))], path)
+		stem := strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+		caseNames[strings.ToLower(stem)] = append(caseNames[strings.ToLower(stem)], path)
 	}
 	var findings []Finding
 	for _, path := range paths {
@@ -101,7 +102,8 @@ func (c *Checker) Scan(root string) ([]Finding, error) {
 		for _, issue := range c.issues(name) {
 			findings = append(findings, Finding{Path: path, Name: name, Issue: issue, Suggestion: Suggestion(name, issue, c.config.MaxLength)})
 		}
-		if len(caseNames[strings.ToLower(name)]) > 1 {
+		stem := strings.TrimSuffix(name, filepath.Ext(name))
+		if len(caseNames[strings.ToLower(stem)]) > 1 {
 			findings = append(findings, Finding{Path: path, Name: name, Issue: CaseConflict, Suggestion: Suggestion(name, CaseConflict, c.config.MaxLength)})
 		}
 	}
