@@ -129,7 +129,7 @@ func (c *Checker) issues(name string) []Issue {
 	if c.allowed != nil && !c.allowed.MatchString(name) {
 		issues = append(issues, IllegalCharacters)
 	}
-	if utf8.RuneCountInString(name) >= c.config.MaxLength {
+	if utf8.RuneCountInString(name) > c.config.MaxLength {
 		issues = append(issues, NameTooLong)
 	}
 	return uniqueIssues(issues)
