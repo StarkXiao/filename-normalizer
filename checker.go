@@ -201,10 +201,11 @@ func RenamePlan(findings []Finding) []Finding {
 		if f.Suggestion == f.Name {
 			continue
 		}
-		if seen[f.Suggestion] {
+		target := filepath.Join(filepath.Dir(f.Path), f.Suggestion)
+		if seen[target] {
 			continue
 		}
-		seen[f.Suggestion] = true
+		seen[target] = true
 		out = append(out, f)
 	}
 	return out
