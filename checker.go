@@ -201,7 +201,6 @@ func RenamePlan(findings []Finding) []Finding {
 		if f.Suggestion == f.Name {
 			continue
 		}
-		target := filepath.Join(filepath.Dir(f.Path), f.Suggestion)
 		if seen[f.Suggestion] {
 			continue
 		}
